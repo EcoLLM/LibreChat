@@ -72,13 +72,14 @@ interface:
   modelSelect: true
   parameters: true
   sidePanel: true
+  temporaryChat: true
   presets: true
   prompts: true
   bookmarks: true
   multiConvo: true
   agents: true
   # Temporary chat retention period in hours (default: 720, min: 1, max: 8760)
-  # temporaryChatRetention: 1
+  temporaryChatRetention: 1
 
 # Example Cloudflare turnstile (optional)
 #turnstile:
@@ -191,22 +192,22 @@ endpoints:
   #   capabilities: ["execute_code", "file_search", "actions", "tools"]
   custom:
     # Groq Example
-    - name: 'groq'
-      apiKey: '${GROQ_API_KEY}'
-      baseURL: 'https://api.groq.com/openai/v1/'
-      models:
-        default:
-          [
-            'llama3-70b-8192',
-            'llama3-8b-8192',
-            'llama2-70b-4096',
-            'mixtral-8x7b-32768',
-            'gemma-7b-it',
-          ]
-        fetch: false
-      titleConvo: true
-      titleModel: 'mixtral-8x7b-32768'
-      modelDisplayLabel: 'groq'
+    # - name: 'groq'
+    #   apiKey: '${GROQ_API_KEY}'
+    #   baseURL: 'https://api.groq.com/openai/v1/'
+    #   models:
+    #     default:
+    #       [
+    #         'llama3-70b-8192',
+    #         'llama3-8b-8192',
+    #         'llama2-70b-4096',
+    #         'mixtral-8x7b-32768',
+    #         'gemma-7b-it',
+    #       ]
+    #     fetch: false
+    #   titleConvo: true
+    #   titleModel: 'mixtral-8x7b-32768'
+    #   modelDisplayLabel: 'groq'
 
     # Mistral AI Example
     - name: 'Mistral' # Unique name for the endpoint
@@ -218,9 +219,9 @@ endpoints:
       # Models configuration
       models:
         # List of default models to use. At least one value is required.
-        default: ['mistral-tiny', 'mistral-small', 'mistral-medium']
+        default: ['mistral-small-latest', 'mistral-medium-latest', 'magistral-small-latest', 'magistral-medium-latest',  'open-mixtral-8x7b']
         # Fetch option: Set to true to fetch models from API.
-        fetch: true # Defaults to false.
+        fetch: false # Defaults to false.
 
       # Optional configurations
 
@@ -231,7 +232,7 @@ endpoints:
       # titleMethod: "completion"  # Defaults to "completion" if omitted.
 
       # Title Model: Specify the model to use for titles.
-      titleModel: 'mistral-tiny' # Defaults to "gpt-3.5-turbo" if omitted.
+      titleModel: 'mistral-small-latest' # Defaults to "gpt-3.5-turbo" if omitted.
 
       # Summarize setting: Set to true to enable summarization.
       # summarize: false
@@ -254,37 +255,37 @@ endpoints:
       dropParams: ['stop', 'user', 'frequency_penalty', 'presence_penalty']
 
     # OpenRouter Example
-    - name: 'OpenRouter'
-      # For `apiKey` and `baseURL`, you can use environment variables that you define.
-      # recommended environment variables:
-      apiKey: '${OPENROUTER_KEY}'
-      baseURL: 'https://openrouter.ai/api/v1'
-      models:
-        default: ['meta-llama/llama-3-70b-instruct']
-        fetch: true
-      titleConvo: true
-      titleModel: 'meta-llama/llama-3-70b-instruct'
-      # Recommended: Drop the stop parameter from the request as Openrouter models use a variety of stop tokens.
-      dropParams: ['stop']
-      modelDisplayLabel: 'OpenRouter'
+    # - name: 'OpenRouter'
+    #   # For `apiKey` and `baseURL`, you can use environment variables that you define.
+    #   # recommended environment variables:
+    #   apiKey: '${OPENROUTER_KEY}'
+    #   baseURL: 'https://openrouter.ai/api/v1'
+    #   models:
+    #     default: ['meta-llama/llama-3-70b-instruct']
+    #     fetch: true
+    #   titleConvo: true
+    #   titleModel: 'meta-llama/llama-3-70b-instruct'
+    #   # Recommended: Drop the stop parameter from the request as Openrouter models use a variety of stop tokens.
+    #   dropParams: ['stop']
+    #   modelDisplayLabel: 'OpenRouter'
 
-    # Portkey AI Example
-    - name: "Portkey"
-      apiKey: "dummy"
-      baseURL: 'https://api.portkey.ai/v1'
-      headers:
-          x-portkey-api-key: '${PORTKEY_API_KEY}'
-          x-portkey-virtual-key: '${PORTKEY_OPENAI_VIRTUAL_KEY}'
-      models:
-          default: ['gpt-4o-mini', 'gpt-4o', 'chatgpt-4o-latest']
-          fetch: true
-      titleConvo: true
-      titleModel: 'current_model'
-      summarize: false
-      summaryModel: 'current_model'
-      forcePrompt: false
-      modelDisplayLabel: 'Portkey'
-      iconURL: https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/rjqy7ghvjoiu4cd1xjbf
+    # # Portkey AI Example
+    # - name: "Portkey"
+    #   apiKey: "dummy"
+    #   baseURL: 'https://api.portkey.ai/v1'
+    #   headers:
+    #       x-portkey-api-key: '${PORTKEY_API_KEY}'
+    #       x-portkey-virtual-key: '${PORTKEY_OPENAI_VIRTUAL_KEY}'
+    #   models:
+    #       default: ['gpt-4o-mini', 'gpt-4o', 'chatgpt-4o-latest']
+    #       fetch: true
+    #   titleConvo: true
+    #   titleModel: 'current_model'
+    #   summarize: false
+    #   summaryModel: 'current_model'
+    #   forcePrompt: false
+    #   modelDisplayLabel: 'Portkey'
+    #   iconURL: https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/rjqy7ghvjoiu4cd1xjbf
 # fileConfig:
 #   endpoints:
 #     assistants:
