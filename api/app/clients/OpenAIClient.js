@@ -36,6 +36,7 @@ const { encodeAndFormat } = require('~/server/services/Files/images/encode');
 const { addSpaceIfNeeded, sleep } = require('~/server/utils');
 const { spendTokens } = require('~/models/spendTokens');
 const { handleOpenAIErrors } = require('./tools/util');
+const { completeImpact } = require('@genai-impact/ecologits-openai');
 const { createLLM, RunManager } = require('./llm');
 const { summaryBuffer } = require('./memory');
 const { runTitleChain } = require('./chains');
@@ -64,6 +65,8 @@ class OpenAIClient extends BaseClient {
     this.isOmni;
     /** @type {SplitStreamHandler | undefined} */
     this.streamHandler;
+    /** @type {object|undefined} */
+    this.impacts;
   }
 
   // TODO: PluginsClient calls this 3x, unneeded
@@ -1368,7 +1371,7 @@ ${convo}
       });
 
       intermediateReply = this.streamHandler.tokens;
-
+      const start = new Date();
       if (modelOptions.stream) {
         streamPromise = new Promise((resolve) => {
           streamResolve = resolve;
@@ -1479,6 +1482,7 @@ ${convo}
 
       const { choices } = chatCompletion;
       this.usage = chatCompletion.usage;
+      this.impacts = await completeImpact(chatCompletion, modelOptions.model, start);
 
       if (!Array.isArray(choices) || choices.length === 0) {
         logger.warn('[OpenAIClient] Chat completion response has no choices');
