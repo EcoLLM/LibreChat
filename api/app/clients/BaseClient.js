@@ -769,6 +769,10 @@ class BaseClient {
       }
     }
 
+    if (this.impacts) {
+      responseMessage.impacts = this.impacts;
+    }
+
     responseMessage.databasePromise = this.saveMessageToDatabase(
       responseMessage,
       saveOptions,
